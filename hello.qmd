@@ -1,0 +1,80 @@
+---
+title: "GABRIELA"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(WDI)
+```
+
+## O que os gastos militares têm a ver com a expectativa de vida? Um olhar sobre o Brasil
+
+Você já parou para pensar como os investimentos em diferentes áreas impactam diretamente a qualidade de vida de uma população? Neste gráfico simples, porém revelador, cruzamos dois indicadores importantes para o Brasil: a expectativa de vida ao nascer e os gastos militares como percentual do PIB.
+
+Cada ponto no gráfico representa a situação do Brasil em um determinado ano. No eixo horizontal, temos a **expectativa de vida** — ou seja, quantos anos, em média, uma pessoa nascida naquele ano pode esperar viver. No eixo vertical, estão os **gastos militares como proporção do PIB**, uma medida de quanto o país direciona de seus recursos para a defesa.
+
+O gráfico serve como uma reflexão: será que aumentar os investimentos militares impacta, direta ou indiretamente, a saúde e o bem-estar da população? Ou será que recursos redirecionados para áreas como saúde e educação teriam um efeito mais claro sobre a expectativa de vida?
+
+Neste recorte específico, vemos apenas o Brasil, e com isso não é possível tirar conclusões definitivas. Porém, este tipo de análise pode ser um ponto de partida interessante para discutir **prioridades de investimento público** e suas consequências a longo prazo.
+
+```{r}
+#| label: graf1
+#| warning: false
+#| echo: false
+
+expvida <- c("SP.DYN.LE00.IN",
+             "MS.MIL.XPND.GD.ZS") #executado
+dados <- WDI(indicator = expvida,
+             country = 'all', 
+             start = 2022, end = 2022)
+
+dadosbr <- WDI(indicator = expvida,
+               country = "BR")
+grafico_ponto <- 
+ggplot(data = dadosbr,
+       mapping = aes(x = SP.DYN.LE00.IN, y = MS.MIL.XPND.GD.ZS)) +
+  geom_point()
+print(grafico_ponto)
+
+library(ggplot2)#executado
+
+expvida <- c("SP.DYN.LE00.IN", "MS.MIL.XPND.GD.ZS")
+dadosbr <- WDI(indicator = expvida, country = "BR")
+
+
+```
+
+## Quanto o Brasil investe em defesa... e quanto vivemos?
+
+No gráfico acima, exploramos a relação entre dois dados relevantes sobre o Brasil no ano de 2022: **a expectativa de vida da população** e **os gastos militares como percentual do PIB**.
+
+A expectativa de vida aparece no eixo horizontal — e mostra quantos anos, em média, uma pessoa nascida em 2022 viveria. Já no eixo vertical, temos o quanto o Brasil gastou com defesa em relação ao tamanho da sua economia.
+
+O ponto rosa no gráfico representa exatamente esse momento no tempo: Brasil, 2022. Pode parecer simples, mas esse tipo de visualização nos ajuda a refletir sobre **prioridades orçamentárias e seus possíveis impactos na qualidade de vida**.
+
+Será que mais investimento em setores como saúde, educação e meio ambiente poderia elevar ainda mais a expectativa de vida? Ou será que a segurança e estabilidade oferecidas por uma defesa forte também contribuem de forma indireta para esse indicador?
+
+A beleza de gráficos assim é que eles não dão respostas prontas — mas nos convidam a pensar, comparar e buscar caminhos para um desenvolvimento mais equilibrado.
+
+```{r}
+#| label: graf2
+#| warning: false
+#| echo: false
+
+grafico_ponto <- ggplot(data = dadosbr, 
+                        mapping = aes(x = SP.DYN.LE00.IN, y = MS.MIL.XPND.GD.ZS)) +
+  geom_point(color = "pink", size = 3) + 
+  ggtitle("Expectativa de Vida vs. Gastos com Defesa (Brasil, 2022)") +  # Título do gráfico
+  xlab("Expectativa de Vida (anos)") +  # Rótulo do eixo x
+  ylab("Gastos com Defesa (% do PIB)") +  # Rótulo do eixo y
+  theme_minimal()  # Um tema mais limpo para o gráfico
+
+print(grafico_ponto)#ok
+
+
+```
