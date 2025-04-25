@@ -1,0 +1,96 @@
+---
+title: "GABRIELA"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-packages
+#| include: false
+
+library(tidyverse)
+library(WDI)
+```
+
+## A Evolução da Participação Feminina no Mercado de Trabalho dos EUA: 1990-2022
+
+### **Evolução da Participação Feminina**
+
+Nos últimos 30 anos, a participação das mulheres na força de trabalho dos EUA tem seguido uma **tendência de crescimento constante**. Isso significa que, em média, cada vez mais mulheres estão ingressando e permanecendo no mercado de trabalho, o que reflete mudanças sociais e econômicas significativas.
+
+**Anos mais recentes**: A linha sobe, sugerindo que as mulheres têm tido mais oportunidades e estão ocupando mais postos de trabalho. Esse aumento pode ser atribuído a várias razões, como políticas de igualdade de gênero, programas de incentivo à participação feminina e um maior acesso das mulheres a áreas de trabalho que antes eram dominadas por homens.
+
+### **O Impacto de Fatores Econômicos**
+
+Claro, nem tudo é uma linha reta! Ao longo do caminho, podemos ver algumas **flutuações** na linha. Essas oscilações podem ser influenciadas por **crises econômicas** ou outros fatores imprevistos, como recessões, que impactam a empregabilidade geral. Por exemplo, durante a crise financeira de 2008, muitos empregos foram perdidos e, consequentemente, a taxa de mulheres no mercado de trabalho pode ter diminuído temporariamente.
+
+### **Por que isso importa?**
+
+Esse gráfico não é apenas um conjunto de números. Ele reflete uma **transformação social** importante. Ao longo das últimas décadas, as mulheres têm conquistado mais espaço no mercado de trabalho, o que é resultado de mudanças nas políticas públicas, maior acesso à educação e uma mudança cultural em relação ao papel das mulheres na sociedade.
+
+**Conclusão**: O crescimento da participação feminina na força de trabalho é uma história de progresso, mas também um lembrete de que ainda há muito a ser feito para garantir **igualdade de oportunidades** para todos. A cada ponto no gráfico, vemos o reflexo de conquistas, desafios e transformações, que continuam moldando o mercado de trabalho hoje.
+
+```{r}
+#| label: graf1
+#| warning: false
+#| echo: false
+
+Iimport <- c("TX.VAL.TECH.MF.ZS")
+
+library(tidyverse)
+dadosus <- WDI(indicator = Iimport,
+               country = "US") %>% 
+  na.omit()
+
+dados1 <- WDI(country = "US", indicator = "SL.TLF.TOTL.FE.ZS", start = 1990, end = 2022)
+
+# Se os dados foram carregados corretamente, continue com o gráfico:
+ggplot(dados1, aes(x = year, y = SL.TLF.TOTL.FE.ZS)) +
+  geom_line(color = "darkmagenta", size = 1.2) +
+  geom_point(color = "purple") +
+  labs(
+    title = "Participação Feminina na Força de Trabalho (EUA)",
+    x = "Ano",
+    y = "% Mulheres na Força de Trabalho"
+  ) +
+  theme_minimal()
+
+```
+
+## Quanto o Brasil investe em defesa... e quanto vivemos?
+
+No gráfico abaixo, exploramos a relação entre dois dados relevantes sobre o Brasil no ano de 2022: **a expectativa de vida da população** e **os gastos militares como percentual do PIB**.
+
+A expectativa de vida aparece no eixo horizontal — e mostra quantos anos, em média, uma pessoa nascida em 2022 viveria. Já no eixo vertical, temos o quanto o Brasil gastou com defesa em relação ao tamanho da sua economia.
+
+O ponto rosa no gráfico representa exatamente esse momento no tempo: Brasil, 2022. Pode parecer simples, mas esse tipo de visualização nos ajuda a refletir sobre **prioridades orçamentárias e seus possíveis impactos na qualidade de vida**.
+
+Será que mais investimento em setores como saúde, educação e meio ambiente poderia elevar ainda mais a expectativa de vida? Ou será que a segurança e estabilidade oferecidas por uma defesa forte também contribuem de forma indireta para esse indicador?
+
+A beleza de gráficos assim é que eles não dão respostas prontas — mas nos convidam a pensar, comparar e buscar caminhos para um desenvolvimento mais equilibrado.
+
+```{r}
+#| label: grafico1
+#| warning: false
+#| echo: false
+
+expvida <- c("SP.DYN.LE00.IN",
+             "MS.MIL.XPND.GD.ZS") #executado
+dados <- WDI(indicator = expvida,
+             country = 'all', 
+             start = 2022, end = 2022)
+
+dadosbr <- WDI(indicator = expvida,
+               country = "BR")
+grafico_ponto <- ggplot(data = dadosbr, 
+                        mapping = aes(x = SP.DYN.LE00.IN, y = MS.MIL.XPND.GD.ZS)) +
+  geom_point(color = "pink", size = 3) + 
+  ggtitle("Expectativa de Vida vs. Gastos com Defesa (Brasil, 2022)") +  # Título do gráfico
+  xlab("Expectativa de Vida (anos)") +  # Rótulo do eixo x
+  ylab("Gastos com Defesa (% do PIB)") +  # Rótulo do eixo y
+  theme_minimal()  # Um tema mais limpo para o gráfico
+
+print(grafico_ponto)#ok
+  
+
+```
